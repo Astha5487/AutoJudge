@@ -1,7 +1,11 @@
+# Ignore all .pkl files except those in models/
+*.pkl
+!models/*.pkl
+
 __pycache__/
 *.pyc
-*.pkl
 *.ipynb_checkpoints/
 .env
 .DS_Store
+
 

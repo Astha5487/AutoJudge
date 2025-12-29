@@ -3,14 +3,20 @@ import pickle
 import re
 
 # ---------- Load Models ----------
-with open("models/tfidf.pkl", "rb") as f:
+import os
+
+# Ensure correct path for Streamlit
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
+
+with open(os.path.join(MODEL_DIR, "tfidf.pkl"), "rb") as f:
     tfidf = pickle.load(f)
 
-with open("models/classifier.pkl", "rb") as f:
+with open(os.path.join(MODEL_DIR, "classifier.pkl"), "rb") as f:
     classifier = pickle.load(f)
 
-with open("models/regressor.pkl", "rb") as f:
+with open(os.path.join(MODEL_DIR, "regressor.pkl"), "rb") as f:
     regressor = pickle.load(f)
+
 
 # ---------- Page Config ----------
 st.set_page_config(
