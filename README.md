@@ -73,14 +73,14 @@ streamlit run app.py
 ## 💾 Models
 
 The models/ folder contains pre-trained ML models:
-```bash
+
 - tfidf.pkl — TF-IDF vectorizer
 
 - classifier.pkl — Random Forest classifier for difficulty level
 
 - regressor.pkl — Random Forest regressor for difficulty score
-```
-- Note: The models are trained on problem statements from data.jsonl.
+
+Note: The models are trained on problem statements from data.jsonl.
 
 ## 🌐 Deployment on Streamlit Cloud
 
