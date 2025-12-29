@@ -4,18 +4,30 @@ import re
 
 # ---------- Load Models ----------
 import os
+import pickle
 
-# Ensure correct path for Streamlit
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
+# Dynamically find the folder where app.py is located
+BASE_DIR = os.path.dirname(__file__)  # folder containing app.py
+MODEL_DIR = os.path.join(BASE_DIR, "models")
 
-with open(os.path.join(MODEL_DIR, "tfidf.pkl"), "rb") as f:
+# Load models
+tfidf_path = os.path.join(MODEL_DIR, "tfidf.pkl")
+classifier_path = os.path.join(MODEL_DIR, "classifier.pkl")
+regressor_path = os.path.join(MODEL_DIR, "regressor.pkl")
+
+# Make sure models exist
+if not all([os.path.exists(p) for p in [tfidf_path, classifier_path, regressor_path]]):
+    raise FileNotFoundError("One or more model files are missing in the models/ folder!")
+
+with open(tfidf_path, "rb") as f:
     tfidf = pickle.load(f)
 
-with open(os.path.join(MODEL_DIR, "classifier.pkl"), "rb") as f:
+with open(classifier_path, "rb") as f:
     classifier = pickle.load(f)
 
-with open(os.path.join(MODEL_DIR, "regressor.pkl"), "rb") as f:
+with open(regressor_path, "rb") as f:
     regressor = pickle.load(f)
+
 
 
 # ---------- Page Config ----------
