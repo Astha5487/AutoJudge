@@ -1,130 +1,136 @@
-⚖️ AutoJudge
+#  ⚖️ AutoJudge
 
-AutoJudge is a Streamlit-based web application that predicts the difficulty level and difficulty score of programming problems using Natural Language Processing (NLP) and machine learning. It helps competitive programmers, educators, and coding platforms quickly gauge problem complexity.
+AutoJudge is a Streamlit web app that predicts the difficulty level and difficulty score of programming problems using NLP and machine learning.
 
-🚀 Features
+It is perfect for competitive programmers, educators, and coding platforms to quickly assess problem complexity.
 
-Predicts Difficulty Level: Easy, Medium, Hard, etc.
+## 🚀 Features
 
-Predicts Difficulty Score: Numerical score representing problem complexity.
+- Difficulty Level Prediction: Easy, Medium, Hard, etc.
 
-Supports full problem descriptions: Problem statement, input format, and output format.
+- Difficulty Score Prediction: Numerical score representing problem complexity.
 
-Built with Random Forest models for classification and regression.
+- Supports full problem statements: problem description, input, and output.
 
-Lightweight and interactive Streamlit frontend for easy user experience.
+- Built with Random Forest models for classification and regression.
+
+- Interactive Streamlit interface for easy use.
 
 📂 Project Structure
+```bash
 AutoJudge/
 ├── app.py                  # Streamlit app
 ├── models/                 # Trained ML models (tfidf.pkl, classifier.pkl, regressor.pkl)
 ├── data.jsonl              # Dataset used to train models
-├── project.ipynb           # Jupyter notebook for model training & preprocessing
+├── project.ipynb           # Notebook for training and preprocessing
 ├── requirements.txt        # Python dependencies
 └── .gitignore
+```
 
-🛠 Installation
+## 🛠 Installation
 
-Clone the repository:
-
+1️⃣ Clone the repository:
+```bash
 git clone https://github.com/Astha5487/AutoJudge.git
 cd AutoJudge
+```
 
 
-Create a virtual environment (optional but recommended):
-
+2️⃣ Create a virtual environment (recommended):
+```bash
 python3 -m venv venv
 source venv/bin/activate      # macOS/Linux
 venv\Scripts\activate         # Windows
+```
 
-
-Install dependencies:
-
+3️⃣ Install dependencies:
+```bash
 pip install -r requirements.txt
+```
 
-
-Run the app locally:
-
+4️⃣ Run the app locally:
+```bash
 streamlit run app.py
+```
+- The app will open in your browser at http://localhost:8501.
 
+## 📊 How It Works
 
-The app will open in your default browser at http://localhost:8501.
+1. User Input: Paste problem description, input format, and output format.
 
-📊 How It Works
+2. Preprocessing: Cleans text and keeps relevant symbols.
 
-User Inputs: Paste the problem description, input, and output format.
+3. Feature Extraction: Converts text into TF-IDF vectors.
 
-Preprocessing: The app cleans the text, removing unwanted characters while preserving key symbols.
+4. Prediction:
 
-Feature Extraction: Converts text to TF-IDF vectors.
+  - Classifier predicts the difficulty level.
 
-Prediction:
+  - Regressor predicts a numerical difficulty score.
 
-Classifier predicts the difficulty level.
+5. Results: Displays predicted difficulty level and score instantly.
 
-Regressor predicts a numerical difficulty score.
+## 💾 Models
 
-Result: Displays predicted difficulty and score interactively.
+The models/ folder contains pre-trained ML models:
+```bash
+- tfidf.pkl — TF-IDF vectorizer
 
-💾 Models
+- classifier.pkl — Random Forest classifier for difficulty level
 
-The models/ folder contains pre-trained machine learning models:
+- regressor.pkl — Random Forest regressor for difficulty score
+```
+- Note: The models are trained on problem statements from data.jsonl.
 
-tfidf.pkl — TF-IDF vectorizer.
+## 🌐 Deployment on Streamlit Cloud
 
-classifier.pkl — Random Forest classifier for difficulty level.
-
-regressor.pkl — Random Forest regressor for difficulty score.
-
-Note: These models are trained on problem statements in data.jsonl.
-
-🌐 Deployment
-
-You can deploy AutoJudge easily on Streamlit Cloud:
-
-Go to Streamlit Cloud
+1. Go to Streamlit Cloud
  and log in.
 
-Connect your GitHub repo AutoJudge.
+2. Connect your GitHub repository AutoJudge.
 
-Deploy the app.
+3. Deploy the app.
 
-Ensure that the models/ folder and requirements.txt are included in the repo.
+4. Make sure models/ folder and requirements.txt are included in the repo.
 
-Done! Your app will be live online.
+5. Done! Your app will be live online.
 
-📝 Usage
+## 📝 Usage
 
-Open the AutoJudge app.
+- Open the AutoJudge app.
 
-Paste the Problem Description, Input Description, and Output Description in the respective text areas.
+- Paste the Problem Description, Input Description, and Output Description.
 
-Click Predict.
+- Click Predict.
 
-View the predicted Difficulty Level and Difficulty Score instantly.
+- View the predicted Difficulty Level and Difficulty Score instantly.
 
-🛠 Technologies Used
+## 🛠 Technologies Used
 
-Python 3.11
+- Python 3.11
 
-Streamlit — for web app frontend
+- Streamlit — Web frontend
 
-scikit-learn — for machine learning models
+- scikit-learn — ML models
 
-Pandas & NumPy — for data manipulation
+- Pandas & NumPy — Data processing
 
-Pickle — to load/save models
+- Pickle — Save/load models
 
-TF-IDF — text vectorization
+- TF-IDF — Text vectorization
 
-📈 Future Improvements
+## 📈 Future Improvements
 
-Add support for multiple languages.
+- Add support for multiple languages.
 
-Implement real-time problem difficulty feedback from users.
+- Add real-time problem difficulty feedback from users.
 
-Enhance models with deep learning NLP architectures (BERT, GPT, etc.).
+- Enhance models with deep learning NLP architectures (BERT, GPT, etc.).
 
 📄 License
 
-This project is open source and available under the MIT License.
+## MIT License – Open source
+
+Author: Astha Jaiswal
+
+GitHub: https://github.com/Astha5487
