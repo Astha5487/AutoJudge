@@ -43,7 +43,7 @@ st.subheader("Programming Problem Difficulty Predictor")
 
 st.markdown(
     "Paste the problem details below. The system will predict "
-    "**difficulty level** and **difficulty score** using NLP."
+    "**difficulty level** and **difficulty score**."
 )
 
 st.markdown("### 📝 Problem Details")
