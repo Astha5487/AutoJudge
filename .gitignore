@@ -1,11 +1,15 @@
-# Ignore all .pkl files except those in models/
-*.pkl
-!models/*.pkl
-
+# Jupyter notebooks
+*.ipynb_checkpoints/
 __pycache__/
 *.pyc
-*.ipynb_checkpoints/
-.env
+
+# Models (if you want to exclude - but KEEP them for this project)
+# models/
+
+# OS files
 .DS_Store
+Thumbs.db
 
-
+# Environment
+.env
+venv/
