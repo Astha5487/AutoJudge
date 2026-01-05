@@ -255,6 +255,24 @@ The app runs fully **locally** — no database or authentication required.
 
 ---
 
+## Web Interface Screenshots
+
+### Input Interface
+Users can paste the problem description, input description, and output description into the text fields.
+
+![Input Interface](<img width="1434" height="859" alt="Image" src="https://github.com/user-attachments/assets/4afd6661-abc7-4be2-8a87-d04963f0d829" />)
+
+---
+
+### Prediction Output
+After clicking the **Predict** button, the model displays:
+- Predicted difficulty class (Easy / Medium / Hard)
+- Predicted difficulty score (0–10)
+
+![Prediction Output](<img width="1436" height="863" alt="Image" src="https://github.com/user-attachments/assets/35a64799-9230-4b5f-aab4-b8673f69d579" />)
+
+---
+
 ## Project Structure
 
 ```text
