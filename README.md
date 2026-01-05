@@ -121,7 +121,7 @@ Logistic Regression performed best based on **cross-validation accuracy**.
 
 ---
 
-### 📌 Regression
+### Regression
 
 **Final Model:** `GradientBoostingRegressor`
 
@@ -150,7 +150,7 @@ Deep learning models are **not used**, in line with project requirements.
 
 ---
 
-### 📈 Regression (Gradient Boosting Regressor)
+### Regression (Gradient Boosting Regressor)
 
 * **Test RMSE:** ~2.01
 * **Test MAE:** ~1.68
@@ -248,7 +248,7 @@ The app runs fully **locally** — no database or authentication required.
 
 ## Demo Video
 
-📽️ **Demo Video:**
+ **Demo Video:**
 👉 [Click here to watch the demo](YOUR_DEMO_VIDEO_LINK)
 
 > Replace `YOUR_DEMO_VIDEO_LINK` with a YouTube or Google Drive link.
@@ -278,8 +278,11 @@ AutoJudge/
 ## Author
 
 **Name:** Astha Jaiswal
+
 **Program:** B.Tech
+
 **Institute:** Indian Institute of Technology, Roorkee
+
 **GitHub:** [@Astha5487](https://github.com/Astha5487)
 
 ---
