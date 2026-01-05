@@ -1,136 +1,286 @@
-#  ⚖️ AutoJudge
+# AutoJudge – Predicting Programming Problem Difficulty
 
-AutoJudge is a Streamlit web app that predicts the difficulty level and difficulty score of programming problems using NLP and machine learning.
+AutoJudge is a **machine learning–based system** that automatically predicts the **difficulty class** and **difficulty score** of competitive programming problems using **only textual descriptions** (problem, input, output).
 
-It is perfect for competitive programmers, educators, and coding platforms to quickly assess problem complexity.
+It is designed for problems similar to those on platforms like **Codeforces**, **CodeChef**, and **Kattis**.
 
-## 🚀 Features
+---
 
-- Difficulty Level Prediction: Easy, Medium, Hard, etc.
+##  Project Overview
 
-- Difficulty Score Prediction: Numerical score representing problem complexity.
+###  Tasks
 
-- Supports full problem statements: problem description, input, and output.
+* **Classification** → Predict problem class: `Easy / Medium / Hard`
+* **Regression** → Predict problem difficulty score: continuous value in **[1, 10]**
 
-- Built with Random Forest models for classification and regression.
+### Input Used (Text Only)
 
-- Interactive Streamlit interface for easy use.
+* Problem description
+* Input description
+* Output description
 
-📂 Project Structure
-```bash
-AutoJudge/
-├── app.py                  # Streamlit app
-├── models/                 # Trained ML models (tfidf.pkl, classifier.pkl, regressor.pkl)
-├── data.jsonl              # Dataset used to train models
-├── project.ipynb           # Notebook for training and preprocessing
-├── requirements.txt        # Python dependencies
-└── .gitignore
+No user statistics, submissions, or solution code are used.
+
+---
+
+## Dataset
+
+The dataset is stored in **`data.jsonl`**. Each data sample contains:
+
+* `title`
+* `description`
+* `input_description`
+* `output_description`
+* `problem_class` → `easy / medium / hard`
+* `problem_score` → float value in roughly **[1, 10]**
+
+The dataset is **already labeled** — no manual labeling is required.
+
+---
+
+## Approach
+
+###  Data Preprocessing
+
+All text fields are combined into a single string:
+
+```python
+full_text = title + " " + description + " " + input_description + " " + output_description
 ```
 
-## 🛠 Installation
+**Text Cleaning Steps:**
 
-1️⃣ Clone the repository:
+* Convert to lowercase
+* Remove HTML tags
+* Remove URLs
+* Collapse multiple spaces/newlines into a single space
+
+---
+
+### Feature Engineering
+
+#### a) Text Features — TF–IDF
+
+* **Vectorizer:** `TfidfVectorizer`
+* **N-grams:** Unigrams + Bigrams
+* **max_features:** 30,000
+* **min_df:** 5
+* **sublinear_tf:** Enabled (log-scaled term frequency)
+
+---
+
+#### b) Handcrafted Numeric Features
+
+For each `full_text`:
+
+##### Text Statistics
+
+* `log(1 + text_length)`
+* `log(1 + math_symbol_count)`
+  (symbols such as `+ - * / = < > ^`)
+
+##### Constraint Indicators
+
+* `has_constraints` → contains **"constraints"**, `<=`, or `≤`
+* `has_big_n` → contains **10^k** (e.g., 10^5, 10^6)
+* `has_time_limit` → contains **"time limit"** or **"seconds"**
+
+##### Algorithm Keyword Log-Counts
+
+Keywords grouped by topic:
+
+* **Dynamic Programming:** `dp`, `knapsack`, `memoization`
+* **Graphs:** `bfs`, `dfs`, `dijkstra`, `max flow`
+* **Data Structures:** `segment tree`, `fenwick`, `union find`
+* **Math:** `gcd`, `modulo`, `combinatorics`
+* **Geometry:** `convex hull`
+* **Strings:** `kmp`, `suffix array`, `rolling hash`
+* **Greedy:** `two pointers`, `sliding window`
+
+ Numeric features are concatenated with TF–IDF vectors using:
+
+```python
+scipy.sparse.hstack
+```
+
+---
+
+## Models Used
+
+### Classification
+
+**Final Model:** `LogisticRegression (multinomial)`
+
+**Models Tried:**
+
+* Logistic Regression (best)
+* Random Forest Classifier
+* Linear SVM (LinearSVC)
+
+Logistic Regression performed best based on **cross-validation accuracy**.
+
+---
+
+### 📌 Regression
+
+**Final Model:** `GradientBoostingRegressor`
+
+**Models Tried:**
+
+* Linear Regression
+* Random Forest Regressor
+* Gradient Boosting Regressor
+
+Gradient Boosting was selected due to **stable predictions** and **low RMSE**.
+
+Deep learning models are **not used**, in line with project requirements.
+
+---
+
+## Evaluation Metrics
+
+###  Classification (Logistic Regression)
+
+* **Test Accuracy:** ~53.21%
+
+**Observations:**
+
+* **Hard** problems are predicted most reliably
+* **Medium** problems are hardest to classify due to overlap with Easy and Hard
+
+---
+
+### 📈 Regression (Gradient Boosting Regressor)
+
+* **Test RMSE:** ~2.01
+* **Test MAE:** ~1.68
+
+**Observations:**
+
+* Gradient Boosting averages many weak learners
+* Predictions are slightly smoothed, which is expected for text-based regression
+
+---
+
+## How to Run the Project Locally
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Astha5487/AutoJudge.git
 cd AutoJudge
 ```
 
+---
 
-2️⃣ Create a virtual environment (recommended):
+### 2. Create & Activate Virtual Environment (Recommended)
+
 ```bash
-python3 -m venv venv
-source venv/bin/activate      # macOS/Linux
-venv\Scripts\activate         # Windows
+python -m venv venv
+source venv/bin/activate   # Mac/Linux
+# venv\Scripts\activate    # Windows
 ```
 
-3️⃣ Install dependencies:
+---
+
+### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4️⃣ Run the app locally:
+If `requirements.txt` is not present:
+
+```bash
+pip install streamlit scikit-learn pandas numpy scipy joblib
+```
+
+---
+
+### 4. (Optional) Re-train the Models
+
+* Open `ACM_project.ipynb` in Jupyter or Google Colab
+* Update base paths if needed
+* Run all cells
+
+Generated files inside `models/`:
+
+* `tfidf.pkl`
+* `logreg_classifier.pkl`
+* `gb_regressor.pkl`
+* `label_encoder.pkl`
+
+---
+
+### 5. Run the Streamlit Web App
+
 ```bash
 streamlit run app.py
 ```
-- The app will open in your browser at http://localhost:8501.
 
-## 📊 How It Works
+The app will start at:
 
-1. User Input: Paste problem description, input format, and output format.
+```
+http://localhost:8501
+```
 
-2. Preprocessing: Cleans text and keeps relevant symbols.
+---
 
-3. Feature Extraction: Converts text into TF-IDF vectors.
+##  Web Interface (Streamlit)
 
-4. Prediction:
+### Workflow
 
-  - Classifier predicts the difficulty level.
+1. Enter text into three fields:
 
-  - Regressor predicts a numerical difficulty score.
+   * Problem Description
+   * Input Description
+   * Output Description
+2. Click **🔍 Predict**
 
-5. Results: Displays predicted difficulty level and score instantly.
+### Output
 
-## 💾 Models
+* Predicted difficulty class (**Easy / Medium / Hard**) shown as a colored badge
+* Predicted difficulty score (e.g., **6.73 / 10**)
 
-The models/ folder contains pre-trained ML models:
+The app runs fully **locally** — no database or authentication required.
 
-- tfidf.pkl — TF-IDF vectorizer
+---
 
-- classifier.pkl — Random Forest classifier for difficulty level
+## Demo Video
 
-- regressor.pkl — Random Forest regressor for difficulty score
+📽️ **Demo Video:**
+👉 [Click here to watch the demo](YOUR_DEMO_VIDEO_LINK)
 
-Note: The models are trained on problem statements from data.jsonl.
+> Replace `YOUR_DEMO_VIDEO_LINK` with a YouTube or Google Drive link.
 
-## 🌐 Deployment on Streamlit Cloud
+---
 
-1. Go to Streamlit Cloud
- and log in.
+## Project Structure
 
-2. Connect your GitHub repository AutoJudge.
+```text
+AutoJudge/
+│
+├── ACM_project.ipynb           # Preprocessing, feature engineering, training, evaluation
+├── app.py                      # Streamlit web app
+├── data.jsonl                  # Dataset (problem statements + labels)
+├── models/
+│   ├── tfidf.pkl               # TF–IDF vectorizer
+│   ├── logreg_classifier.pkl   # Classification model
+│   ├── gb_regressor.pkl        # Regression model
+│   └── label_encoder.pkl       # Label encoder
+├── Report.pdf                  # Detailed project report (4–8 pages)
+├── requirements.txt            # Python dependencies
+└── README.md                   # Project documentation
+```
 
-3. Deploy the app.
+---
 
-4. Make sure models/ folder and requirements.txt are included in the repo.
+## Author
 
-5. Done! Your app will be live online.
+**Name:** Astha Jaiswal
+**Program:** B.Tech
+**Institute:** Indian Institute of Technology, Roorkee
+**GitHub:** [@Astha5487](https://github.com/Astha5487)
 
-## 📝 Usage
+---
 
-- Open the AutoJudge app.
-
-- Paste the Problem Description, Input Description, and Output Description.
-
-- Click Predict.
-
-- View the predicted Difficulty Level and Difficulty Score instantly.
-
-## 🛠 Technologies Used
-
-- Python 3.11
-
-- Streamlit — Web frontend
-
-- scikit-learn — ML models
-
-- Pandas & NumPy — Data processing
-
-- Pickle — Save/load models
-
-- TF-IDF — Text vectorization
-
-## 📈 Future Improvements
-
-- Add support for multiple languages.
-
-- Add real-time problem difficulty feedback from users.
-
-- Enhance models with deep learning NLP architectures (BERT, GPT, etc.).
-
-📄 License
-
-## MIT License – Open source
-
-Author: Astha Jaiswal
-
-GitHub: https://github.com/Astha5487
