@@ -246,12 +246,12 @@ The app runs fully **locally** — no database or authentication required.
 
 ---
 
-## Demo Video
+## 🎥 Demo Video
 
- **Demo Video:**
-👉 [Click here to watch the demo]((https://drive.google.com/file/d/13TnueCoy5cK2gQEE2Y1UdwI3rO1t4AcI/view?usp=drive_link))
+👉 **[Click here to watch the demo](https://drive.google.com/file/d/13TnueCoy5cK2gQEE2Y1UdwI3rO1t4AcI/view?usp=drive_link)**
 
 ---
+
 
 ## Web Interface Screenshots
 
